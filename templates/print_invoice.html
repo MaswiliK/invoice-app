@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="border p-4 bg-white shadow-lg" style="max-width: 600px; margin: auto; font-family: Arial, sans-serif;">
+    <div class="text-center mb-4">
+        <h2 class="text-primary mt-2">Invoice</h2>
+        <p>Invoice ID: <strong>#{{ invoice.id }}</strong></p>
+    </div>
+
+    <hr>
+
+    <div class="mb-3">
+        <h5>Customer Details</h5>
+        <p><strong><i class="fas fa-user"></i> Name:</strong> {{ invoice.customer_name }}</p>
+        <p><strong><i class="fas fa-box"></i> Item/Service:</strong> {{ invoice.item }}</p>
+    </div>
+
+    <div class="mb-3">
+        <h5>Billing Details</h5>
+        <p><strong><i class="fas fa-dollar-sign"></i> Amount:</strong> Ksh.{{ "%.2f"|format(invoice.amount) }}</p>
+        <p><strong><i class="fas fa-calendar-alt"></i> Date:</strong> {{ invoice.date.strftime('%Y-%m-%d %H:%M:%S') }}
+        </p>
+    </div>
+
+    <hr>
+
+    <div class="text-center mt-4">
+        <p>Thank you for your business!</p>
+        <p>Processed by: Admin</p>
+        <p><em>This is a computer-generated invoice.</em></p>
+    </div>
+</div>
+
+<script>
+    window.onload = function () {
+        window.print();
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Dashboard Header -->
+<div class="dashboard-header mb-4">
+    <h1><i class="fas fa-cash-register dashboard-icon"></i> POS Dashboard</h1>
+</div>
+
+<!-- Action Cards -->
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-file-invoice-dollar fa-3x text-primary"></i>
+                <h5 class="card-title mt-3">Add Invoice</h5>
+                <a href="{{ url_for('add_invoice') }}" class="btn btn-outline-primary btn-sm">Go</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-folder-open fa-3x text-primary"></i>
+                <h5 class="card-title mt-3">View Invoices</h5>
+                <a href="{{ url_for('view_invoices') }}" class="btn btn-outline-primary btn-sm">Go</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-chart-line fa-3x text-primary"></i>
+                <h5 class="card-title mt-3">Reports</h5>
+                <a href="{{ url_for('view_reports') }}" class="btn btn-outline-primary btn-sm">Go</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Invoices Table -->
+<div class="table-responsive">
+    <table class="table table-hover table-bordered bg-white">
+        <thead class="bg-primary text-white">
+            <tr>
+                <th><i class="fas fa-hashtag"></i> ID</th>
+                <th><i class="fas fa-user"></i> Customer Name</th>
+                <th><i class="fas fa-clipboard-list"></i> Item/Service</th>
+                <th><i class="fas fa-dollar-sign"></i> Amount</th>
+                <th><i class="fas fa-calendar-alt"></i> Date</th>
+                <th><i class="fas fa-cogs"></i> Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for invoice in invoices %}
+            <tr>
+                <td>{{ invoice.id }}</td>
+                <td>{{ invoice.customer_name }}</td>
+                <td>{{ invoice.service }}</td>
+                <td>Ksh. {{ "%.2f"|format(invoice.amount) }}</td>
+                <td>{{ invoice.date.strftime("%Y-%m-%d") }}</td>
+                <td>
+                    <a href="{{ url_for('print_invoice', invoice_id=invoice.id) }}"
+                        class="btn btn-sm btn-outline-primary" target="_blank">
+                        <i class="fas fa-print"></i> Print
+                    </a>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6" class="text-center text-muted">No invoices available</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

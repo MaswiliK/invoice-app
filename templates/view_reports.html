@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="mb-4 text-center">View Reports</h1>
+
+<!-- Report Filters -->
+<form method="GET" action="{{ url_for('view_reports') }}" class="form-inline mb-4 justify-content-center">
+    <label for="filter" class="mr-2 font-weight-bold">Select Report Type:</label>
+    <select name="filter" id="filter" class="form-control mr-2">
+        <option value="daily" {% if filter=='daily' %}selected{% endif %}>Daily</option>
+        <option value="weekly" {% if filter=='weekly' %}selected{% endif %}>Weekly</option>
+        <option value="monthly" {% if filter=='monthly' %}selected{% endif %}>Monthly</option>
+    </select>
+    <button type="submit" class="btn btn-primary">Generate Report</button>
+</form>
+
+<!-- Summary Table -->
+{% if reports %}
+<div class="table-responsive">
+    <table class="table table-striped table-bordered text-center">
+        <thead class="thead-dark">
+            <tr>
+                <th>Period</th>
+                <th>Invoice Count</th>
+                <th>Total Revenue (Kes)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for report in reports %}
+            <tr>
+                <td>{{ report.period }}</td>
+                <td>{{ report.invoice_count }}</td>
+                <td>Ksh.{{ "%.2f"|format(report.total_revenue) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="alert alert-info text-center">No reports available for the selected filter.</div>
+{% endif %}
+
+<div class="text-center mt-4">
+    <a href="/" class="btn btn-success">Back to Dashboard</a>
+</div>
+{% endblock %}
